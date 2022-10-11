@@ -1,4 +1,5 @@
-const select_menu = document.querySelectorAll("select")
+const select_menu = document.querySelectorAll("select"),
+current_time = document.querySelector("h1")
 
 // Hours
 for (let i = 12; i > 0; i--) {
@@ -20,3 +21,26 @@ for (let i = 2; i > 0; i--) {
     let option = `<option value="${am_pm}">${am_pm}</option>`
     select_menu[2].firstElementChild.insertAdjacentHTML("afterend", option)
 }
+
+// Displaying current time
+setInterval(() => {
+    let date = new Date(),
+    hour = date.getHours(),
+    minute = date.getMinutes(),
+    second = date.getSeconds(),
+    am_pm = "AM"
+
+    if(hour >= 12) {
+        hour = hour - 12
+        am_pm = "PM"
+    }
+
+    hour = hour == 0 ? hour = 12 : hour // set hour to 12 if = 0
+
+    // if value < 10, add 0 before it
+    hour = hour < 10 ? "0" + hour : hour
+    minute = minute < 10 ? "0" + minute : minute
+    second = second < 10 ? "0" + second : second
+
+    current_time.innerText = `${hour}:${minute}:${second} ${am_pm}`
+},1000)
