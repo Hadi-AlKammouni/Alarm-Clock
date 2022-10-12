@@ -4,7 +4,8 @@ set_alarm_btn = document.querySelector("button"),
 content = document.querySelector(".content") 
 
 let alarm_time,
-ring_tone = new Audio("./assets/ringtone.mp3")
+ringtone = new Audio("./assets/ringtone.mp3"),
+is_alarm_set = false
 
 // Hours
 for (let i = 12; i > 0; i--) {
@@ -50,25 +51,31 @@ setInterval(() => {
     current_time.innerText = `${hour}:${minute}:${second} ${am_pm}`
 
     if(alarm_time == `${hour}:${minute} ${am_pm}`) {
-        ring_tone.play()
-        ring_tone.loop = true
+        ringtone.play()
+        ringtone.loop = true
     }
-
 },1000)
 
-
+// Setting the alarm
 function setAlarm() {
+    if (is_alarm_set) {
+        alarm_time = ""
+        ringtone.pause()
+        content.classList.remove("disable")
+        set_alarm_btn.innerText = "Set Alarm"
+        return is_alarm_set = false
+    }
+
     let time = `${select_menu[0].value}:${select_menu[1].value} ${select_menu[2].value}`
 
     if(time.includes("Hour") || time.includes("Minute") || time.includes("AM/PM")) {
         return alert("Please select a valid time to set alarm!")
     }
 
+    is_alarm_set = true
     alarm_time = time
     content.classList.add("disable")
     set_alarm_btn.innerText = "Clear Alarm"
 }
-
-
 
 set_alarm_btn.addEventListener("click", setAlarm)
