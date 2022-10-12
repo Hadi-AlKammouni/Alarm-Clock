@@ -1,5 +1,6 @@
 const select_menu = document.querySelectorAll("select"),
-current_time = document.querySelector("h1")
+current_time = document.querySelector("h1"),
+set_alarm_btn = document.querySelector("button") 
 
 // Hours
 for (let i = 12; i > 0; i--) {
@@ -44,3 +45,15 @@ setInterval(() => {
 
     current_time.innerText = `${hour}:${minute}:${second} ${am_pm}`
 },1000)
+
+
+function setAlarm() {
+    let time = `${select_menu[0].value}:${select_menu[1].value} ${select_menu[2].value}`
+    if(time.includes("Hour") || time.includes("Minute") || time.includes("AM/PM")) {
+        return alert("Please select a valid time to set alarm!")
+    }
+}
+
+
+
+set_alarm_btn.addEventListener("click", setAlarm)
